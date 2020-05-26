@@ -1,0 +1,88 @@
+<div class="main-panel">
+  <div class="content">
+    <div class="page-inner">
+      <div class="row">
+        <div class="col-md-12">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-head-row">
+                <div class="card-title">Chat report </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-12">
+                  <!-- <div class="input-group" id="adv-search">
+                    <input type="text" class="form-control" [(ngModel)]="SearchName" placeholder="Search..">
+                    <div class="input-group-btn">
+                      <div class="btn-group" role="group">
+
+                        <button type="button" class="btn btn-primary" (click)="search()"><span class="fa fa-search"
+                            aria-hidden="true"></span></button>
+                      </div>
+                    </div>
+                  </div> -->
+                </div>
+              </div>
+              <div class="row pt-3">
+                <div class="col-md-12">
+                  <div class="table-responsive">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+
+                          <!-- <th>Profile Picture</th> -->
+                          <th>Vendor</th>
+                          <th>Customer</th>
+                          <th>GoTochat  </th>
+                          <th>Status</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let cat of dataList">
+                          <!-- <td>
+                            <div class="pro-thumb"><img style="height: 50px;" src={{cat.Image}} /></div>
+                          </td> -->
+                          <td>{{cat.VendorName}}</td>
+                          <td>{{cat.UserName}}</td>
+                          <td>  <button class="btn btn-sm btn-success btn-fix-width" (click)="goToChat(cat.Id)" >GoToChat</button></td>
+                          <td *ngIf="cat.IsArchived==true">
+                            <button (click)="onActivate(cat.Id,2)"
+                              class="btn btn-sm btn-success btn-fix-width">Resolved</button>
+                          </td>
+
+                          <td *ngIf="cat.IsArchived==false">
+                            <button (click)="onActivate(cat.Id,1)"
+                              class="btn btn-sm btn-danger btn-fix-width">Resolve</button>
+                          </td>
+                          <!-- <td>
+                            <button (click)="onEdit(cat.Id)" class="btn btn-sm btn-outline-danger"><i
+                                class="fas fa-edit"></i></button>
+                            <button (click)="onDelete(cat.Id)" class="btn btn-sm btn-outline-danger"><i
+                                class="fas fa-trash"></i></button></td> -->
+                          <!-- <td>
+                            <button (click)="onResetPassword(cat.Id)"
+                              class="btn btn-sm btn-outline-danger">{{'Register.ResetLinkButton'|translate}}</button>
+                          </td> -->
+
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="no-left-right" *ngIf="count">
+                    <app-admin-pagination [count]="count" [page]="page" [(perPage)]="perPage" [pagesToShow]="pagesToShow"
+                      (goPrev)="prevPage()" (goNext)="nextPage()" (goPage)="goToPage($event)"
+                      (pageSize)="newPageSize($event)">
+                    </app-admin-pagination>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,143 @@
+<div class="container">
+   
+    <div class="content-inner">
+        <div class="mt-gap-t">
+            <button class="btn btn-success" [routerLink]="['/admin/dashboard']"
+            routerLinkActive="router-link-active"><i class="fas fa-chevron-left"></i> Back to Dashboard</button>
+        </div>
+  <div class="row">
+    <div class="col-md-12">
+        <div class="inbox">
+            <div class="messenger-list">
+                <div id="custom-search-input">
+                    <div class="input-group col-md-12">
+                        <input type="text"  #searchtext class="search-query form-control" placeholder="Search" />
+                        <span class="input-group-btn">
+                            <button class="btn btn-success" type="button" (click)="bySearch(searchtext.value)" >
+                                <span class=" fa fa-search"></span>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+               
+                <div class="messenger-listing-block">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <ul class="message-list" *ngIf=" Chats.length>0">
+                                <li class="unread" *ngFor="let c of Chats">
+                                    <a (click)="changeChat(c)">
+                                <div class="messenger-icon" *ngIf="c.ProductImage!=null;else elseblock1">
+                                    <img src={{c.ProductImage}}>
+                                    <!-- <i class="fa fa-circle green"></i> -->
+                                </div>
+                                <ng-template #elseblock1>
+                                    <div class="messenger-icon">
+                                        <img src="assets/img/icon-logo.png">
+                                        <!-- <i class="fa fa-circle green"></i> -->
+                                    </div>
+                                </ng-template>
+                                <div class="messenger-message">
+                                    <h5 class="message-title">{{c.CustomerName}}</h5>
+                                    <div class="message-summery choppOff">{{c.LastMsg}}</div>
+                                </div>
+                                <span class="date-time">{{c.Date|date}}</span>
+                                    </a>
+                                </li>
+                                
+                                <!-- <li class="active">
+                                    <a>
+                                        <div class="messenger-icon">
+                                            <img src="assets/img/logo-chat.png">
+                                            <i class="fa fa-circle green"></i>
+                                        </div>
+                                        <div class="messenger-message">
+                                            <h5 class="message-title">Get Set Ready</h5>
+                                            <div class="message-summery choppOff">Design all task given by Ashwini on top priority.</div>
+                                        </div>
+                                        <span class="date-time">14 min ago</span>
+                                    </a>
+                                </li>
+                                
+                                <li class="read">
+                                    <a>
+                                        <div class="messenger-icon">
+                                            <img src="assets/img/5.jpg">
+                                            <i class="fa fa-circle light-gray"></i>
+                                        </div>
+                                        <div class="messenger-message">
+                                            <h5 class="message-title">Shivam Mishra</h5>
+                                            <div class="message-summery choppOff">Ready to get assigned a new task always as a apportunity.</div>
+                                        </div>
+                                        <span class="date-time">19 min ago</span>
+                                    </a>
+                                </li> -->
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="chat-box">
+                <div class="chat-header">
+                    <div class="header-icon" *ngIf="messages.length>0 && messages[0].ProductImage!=null;else elseblock">
+                        <img src={{messages[0].ProductImage}}>
+                        <i class="fa fa-circle green"></i>
+                    </div>
+                    <ng-template #elseblock>
+                        <div class="header-icon">
+                            <img src="assets/img/icon-logo.png">
+                            <!-- <i class="fa fa-circle green"></i> -->
+                        </div>
+                    </ng-template>
+                    <div class="header-details" *ngIf="messages && messages[0]">
+                        <!-- ProductName -->
+                        <h5 class="user-icon">{{messages[0].ProductName}}</h5>   
+                        <!--c ustomerName -->
+                        <span class="header-summery font-12">{{messages[0].CustomerName}}</span>
+                        <button class="btn btn-success pull-right" *ngIf="messages && !messages[0].IsArchieved" (click)="resolve(messages[0].Id)" >Resolve</button>
+                        <button class="btn btn-success pull-right" *ngIf="messages &&messages[0].IsArchieved" (click)="unresolve(messages[0].Id)" >Resolved</button>
+                    </div>
+                   
+                </div>
+                <div class="chatter" #scrollMe [scrollTop]="scrollMe.scrollHeight" >
+                    <div *ngFor="let msg of messages">
+                    <div class="chat-wrapper left" *ngIf="msg.CustomerMsg||msg.customerMsg">
+                        <div class="chatter-title">
+                   {{msg.CustomerName||msg.customerName}}
+                        </div>
+                        <div class="chatter-message">
+                            <p>{{msg.CustomerMsg||msg.customerMsg}}</p>
+                        </div>
+                        <div class="time-plate">
+                            {{msg.Date||msg.date}}
+                        </div>
+                    </div>
+                    <div class="chat-wrapper right" *ngIf="msg.VendorMsg ||msg.vendorMsg">
+                        <div class="chatter-title">
+                           {{msg.VendorName||msg.VendorName}}
+                        </div>
+                        <div class="chatter-message">
+                            <p>{{msg.VendorMsg||msg.vendorMsg}}</p>
+                        </div>
+                        <div class="time-plate">
+                            {{msg.Date||msg.date}}
+                        </div>
+                    </div>
+                </div>
+                </div>
+                <div class="chat-footer">
+                    <div class="chat-input">
+                        <textarea rows="1" [value]="txtMessage"  (input)="txtMessage=$event.target.value" (keydown.enter)="sendMessage()" placeholder="Type your message here..."></textarea>
+                        <!-- <ul class="chat-action">
+                            <li><a><img src="assets/img/svg/attachment.svg"/></a></li>
+                            <li><a><img src="assets/img/svg/upload.svg"/></a></li>
+                            <li><a><img src="assets/img/svg/smiling.svg"/></a></li>
+                        </ul> -->
+                        <button class="btn btn-primary btn-sm chat-btn" (click)="sendMessage()"><img src="assets/img/send-btn-icon.png"/></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
