@@ -49,6 +49,7 @@ import { OrderReportComponent } from './shared/components/order-report/order-rep
 import { VendorChatComponent } from './shared/components/vendor-chat/vendor-chat.component';
 import { LiveReportlayoutComponent } from './shared/layouts/live-reportlayout/live-reportlayout.component';
 import { LogslayoutComponent } from './shared/layouts/logslayout/logslayout.component';
+import { ContactUsComponent } from './shared/components/contact-us/contact-us.component';
 
 const routes: Routes = [
 
@@ -60,6 +61,7 @@ const routes: Routes = [
       externalUrl: 'https://www.pistis.com.mx/wordpress/'
     }
 },
+{ path: "contactus", component: ContactUsComponent },
   { path: "", component: HomePageComponent },
  // { path: "checkout-process", loadChildren: 'src/app/shared/components/checkout/checkout.module#CheckoutModule' },
  {path:"homelistscatalogue",component:HomelistscatalogueComponent},

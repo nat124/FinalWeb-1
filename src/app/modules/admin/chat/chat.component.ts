@@ -4,6 +4,7 @@ import {chatService } from './chat.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { VendorlayoutComponent } from 'src/app/shared/layouts/vendorlayout/vendorlayout.component';
 import { ScrollToBottomDirective } from 'src/app/scroll-to-bottom.directive';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-chat',
@@ -28,11 +29,16 @@ export class ChatComponent  implements OnInit {
   vendorChatId: any;
   @ViewChild(ScrollToBottomDirective,{static:false})
   scroll: ScrollToBottomDirective;
+  imageUrl: any;
+  fileToUpload: any;
+  display: string="none";
+  imagePath: any;
   constructor(
     private chatService: chatService,
     private _ngZone: NgZone,
     private route: ActivatedRoute,
     private router:Router,
+    private toster:ToastrService
   ) {
     //this.subscribeToEvents();  
   }
@@ -152,7 +158,6 @@ ProductVariantDetailId:this.ProductVariantDetailId
     }
   }
   private subscribeToEvents(): void {
-
     this.chatService.messageReceived.subscribe((message: Message) => {
       debugger
       this._ngZone.run(() => {
@@ -164,4 +169,38 @@ ProductVariantDetailId:this.ProductVariantDetailId
     });
   }
 
+  onSelectFile(event) {
+    const file = event.target.files[0];
+    const typeFile = file.type.split('/');
+    if(typeFile[1] === 'png' || typeFile[1] === 'jpg' || typeFile[1] === 'jpeg' ){ 
+    if (event.target.files && event.target.files[0]) {
+
+      var filesAmount = event.target.files.length;
+      for (let i = 0; i < filesAmount; i++) {
+        var reader = new FileReader();
+
+        reader.onload = (event: any) => {
+          ;
+          this.imageUrl = event.target.result;
+          //this.model.Image=this.imageUrl;
+          //this.model.Id=0;
+          //this.urls.push(event.target.result); 
+         this.sendMessage();
+       
+        }
+        this.fileToUpload = event.target.files[i]
+        reader.readAsDataURL(this.fileToUpload);
+      }
+    }}else{
+      this.toster.error('Please select jpeg or .png Image !');
+    }
+
+  }
+  openModal(path:any) {
+
+    this.display = 'block';
+this.imagePath=path;
+  }
+  onCloseHandled() {
+    this.display = 'none';}
 }

@@ -100,6 +100,7 @@
                                         class="sellingPrice">${{item.PriceAfterDiscount.toFixed(2)}} x {{item.Quantity}}</span></p>
                                     <!-- <p class="offer_count"><span class="sellingPrice">{{'Register.MyOrders.OFFER'|translate}}:</span>1</p> -->
                                   </div>
+                                  <div> <button class="btn btn-primary" (click)="goToChat(item.productId,item.ProductVariantDetailId)">Chat</button></div>
                                 </div>
                               </div>
                               <div class="col-12 col-md-3">

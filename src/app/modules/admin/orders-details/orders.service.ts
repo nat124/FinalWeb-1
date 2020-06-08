@@ -20,8 +20,8 @@ export class OrdersService {
 
   getordersdate(firstDate: any, seconedDate: any, page, size) {
 
-    firstDate = this.datePipe.transform(firstDate, 'dd/MM/yyyy HH:mm:ss')
-    seconedDate = this.datePipe.transform(seconedDate, 'dd/MM/yyyy HH:mm:ss')
+    firstDate = this.datePipe.transform(firstDate, 'MM/dd/yyyy HH:mm:ss')
+    seconedDate = this.datePipe.transform(seconedDate, 'MM/dd/yyyy HH:mm:ss')
     return this.http.get(this.url + 'orders/getOrderDetails?First=' + firstDate + '&scnd=' + seconedDate + '&page=' + page + '&pageSize=' + size)
   }
 

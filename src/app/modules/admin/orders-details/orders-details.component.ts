@@ -44,7 +44,7 @@ this.data=this.OriginalData
 }
   getOrders() {
     this.srevice.getorders(this.page, this.pageSize).subscribe((response: any) => {
-debugger
+
       this.data = response.data;
       this.OriginalData=this.data
       this.count = response.count;
@@ -52,7 +52,7 @@ debugger
   }
 
   getTariks(first: string, scnd: string) {
-
+    debugger
     this.page = 1;
     this.first = first
     this.scnd = scnd

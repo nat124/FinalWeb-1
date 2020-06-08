@@ -1,2 +1,12 @@
 dist
 node_modules
+.vs
+.editorconfig
+angular
+package
+package-lock
+README
+tsconfig.app
+tsconfig
+tsconfig.spec
+tslint

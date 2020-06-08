@@ -120,7 +120,15 @@ export class RecentlyViewedComponent implements OnInit {
       });
     }
     addCompare(VariantDetailId: number) {
-     
+      if(+localStorage.getItem("compareCount")>=4)
+      {
+        if(localStorage.getItem("browseLang")=="english")
+        this.toastr.warning("Maximum 4 products can be added.")
+        else
+        this.toastr.warning("Se pueden agregar un máximo de 4 productos.")
+      }
+      else
+      {
       //if (this.ComporeProduct.length == 0) {
         this.ComporeProduct.push(VariantDetailId);
         this.productService
@@ -151,6 +159,7 @@ export class RecentlyViewedComponent implements OnInit {
           });
       
     }
+  }
     addToCart(varientId, SellingPrice, Discount, PriceAfterdiscount) {
       let item: CartItem = new CartItem();
       item.ProductVariantDetailId = varientId;

@@ -40,6 +40,9 @@ export class ProductDetailsMobileComponent extends ProductDetailsComponent imple
       super(tracklog,datepipe,toastr,Router,route,http,userLog,productService,cartservice,shipService,myservice,googleAnalyticsService,sanitizer,applicationStateService)
   }
   ngOnInit(){
+    this.route.queryParams.subscribe(params => {
+      this.variantId=params["variantId"];
+     })
     super.loadView();
   }
 }

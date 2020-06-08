@@ -65,6 +65,7 @@ export class CompareProductsComponent implements OnInit {
       this.getCompareProducts().subscribe(res => {
 
         this.product = res as [];
+        localStorage.setItem("compareCount",this.product.length)
         if (this.product.length <= 0) this.Router.navigate(["/"]);
         this.width = Math.round(90 / this.product.length) + "%";
         console.table(this.product.length);
@@ -98,6 +99,13 @@ export class CompareProductsComponent implements OnInit {
   }
 
   SaveCompareProduct(VarientId: number) {
+    if(this.product.length>=4)
+    {
+      if(localStorage.getItem("browseLang")=="english")
+      this.toastr.warning("Maximum 4 products can be added.")
+      else
+      this.toastr.warning("Se pueden agregar un máximo de 4 productos.")
+    }
     return this.http
       .get(this.url + "compare/SaveCompareProduct?variantId=" + VarientId)
       .subscribe(x => {

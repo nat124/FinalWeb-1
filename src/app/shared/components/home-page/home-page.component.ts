@@ -495,7 +495,15 @@ IpAddress
     );
   }
   addCompare(VariantDetailId: number) {
-
+    if(+localStorage.getItem("compareCount")>=4)
+    {
+      if(localStorage.getItem("browseLang")=="english")
+      this.toastr.warning("Maximum 4 products can be added.")
+      else
+      this.toastr.warning("Se pueden agregar un máximo de 4 productos.")
+    }
+    else
+    {
     //if (this.ComporeProduct.length == 0) {
     this.myViewModel.ComporeProduct.push(VariantDetailId);
     let UserId:any= localStorage.getItem('UserId')
@@ -549,6 +557,7 @@ IpAddress
     //   }
     // }
   }
+}
   TestimonialList: any[] = [];
 
   gotocat(Id) {
@@ -920,10 +929,10 @@ IpAddress
         items: 2,
       },
       600: {
-        items: 4,
+        items: 5,
       },
       1000: {
-        items: 5,
+        items: 10,
       },
     },
     nav: true,

@@ -1,5 +1,12 @@
 {
   "Register": {
+    "Resolved":"Resuelta",
+     "Resolve":"Resolver",
+    "SearchByVendor":"Buscar por nombre de proveedor",
+    "StillUnhappy":"Todavía infeliz?",
+    "ContactUs":"Contacta con nosotras",
+    "PleaseWait":"Por favor espera...",
+    "ShipmentMsg":"Estamos calculando los gastos de envío en su pedido ",
     "RelatedTags":"Etiquetas Relacionadas",
     "RecentlyBought":"Usted compró recientemente",
     "YouMayLike":"También te puede interesar",

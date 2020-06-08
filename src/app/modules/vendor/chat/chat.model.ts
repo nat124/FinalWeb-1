@@ -11,5 +11,5 @@ export class Message {
     VendorMsg:string;
     CustomerMsg:string;
     ProductImage:string;
-
+attachment:string;
   }

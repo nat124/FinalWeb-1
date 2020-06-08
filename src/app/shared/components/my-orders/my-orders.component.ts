@@ -85,4 +85,9 @@ this.hidemainDiv=true
   gotoReturn(id: number, PvdId: number,CheckoutItemId:number,Quantity:number) {
     this.Router.navigate(['/return'], { queryParams: { Id: id, ProductVdId: PvdId,CheckoutItemId:CheckoutItemId,Quantity:Quantity } });
     }
+    goToChat(Id,VariantId)
+    {
+    debugger
+    this.Router.navigate(['/vendor-chat'], { queryParams: { Id: Id, variantId: VariantId } });
+    }
 }

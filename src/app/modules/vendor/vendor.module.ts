@@ -15,6 +15,8 @@ import { ReportModule } from './report/report.module';
 import { ProfileComponent } from './profile/profile.component';
 import { ChatComponent } from './chat/chat.component';
 import { chatService } from './chat/chat.service';
+import { QuestionModule } from './question/question.module';
+import { ScrollToBottomDirective } from 'src/app/scroll-to-bottom.directive';
 
 const DROPZONECONFIG: DropzoneConfigInterface = {
   url: 'https://httpbin.org/post',
@@ -35,6 +37,9 @@ const routes: Routes = [
     path: "dashboard", loadChildren: 'src/app/modules/vendor/dashboard/dashboard.module#DashboardModule'
   },
   {
+    path: "question", loadChildren: 'src/app/modules/vendor/question/question.module#QuestionModule'
+  },
+  {
     path: "profile", loadChildren: 'src/app/modules/vendor/profile/profile.module#ProfileModule'
   },
   {
@@ -46,6 +51,7 @@ const routes: Routes = [
 @NgModule({
   declarations: [WelcomeComponent,ChatComponent],
   imports: [
+    QuestionModule,
     LayoutModule,
     CommonModule,
     RouterModule.forChild(routes),

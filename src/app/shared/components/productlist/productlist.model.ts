@@ -115,6 +115,9 @@ export class Filter {
   SearchData: string = "";
   AvgRate: number;
   SortBy: string = "NewArrival";
+  PreviousPerPage:number;
+  IsAll=false;
+  CurrentCount:number;
 
 }
 export class SelectVariant {

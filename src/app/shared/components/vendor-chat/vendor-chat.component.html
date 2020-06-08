@@ -7,7 +7,7 @@
                 <div class="search-bar">
                     <div id="custom-search-input">
                             <div class="input-group col-md-12">
-                                <input type="text" #searchtext class="  search-query form-control" placeholder="Search By Vendor name" />
+                                <input type="text" #searchtext class="  search-query form-control" placeholder="{{'Register.SearchByVendor'|translate}}" />
                                 <span class="input-group-btn">
                                     <button class="btn btn-danger" type="button" (click)="bySearch(searchtext.value)">
                                         <span class=" fa fa-search"></span>
@@ -37,7 +37,9 @@
                                     <h5 class="message-title">{{c.VendorName}}</h5>
                                     <div class="message-summery choppOff">{{c.LastMsg}}</div>
                                 </div>
-                                <span class="date-time">{{c.Date|date}}</span>
+                                <span class="date-time">{{c.Date|date}}
+                                    
+                                </span>
                                     </a>
                                 </li>
                                 
@@ -73,7 +75,7 @@
                     </div>
                 </div>
             </div>
-            <div class="chat-box">
+            <div class="chat-box"  >
                 <div class="chat-header">
                     <div class="header-icon" *ngIf="messages.length>0 && messages[0].ProductImage!=null;else elseblock">
                         <img src={{messages[0].ProductImage}}>
@@ -86,10 +88,15 @@
                         </div>
                     </ng-template>
                     <div class="header-details" *ngIf="messages && messages[0]">
+                         <!-- VendorName -->
+                         <span class="header-summery font-12">{{messages[0].VendorName}}</span>
                         <!-- ProductName -->
                         <h5 class="user-icon">{{messages[0].ProductName}}</h5>   
-                        <!-- VendorName -->
-                        <span class="header-summery font-12">{{messages[0].VendorName}}</span>
+                       
+                    </div>
+                    <div class="pull-right text-center">
+                        {{'Register.StillUnhappy'|translate}} <br>
+                        <button class="btn btn-primary" routerLink="/contactus" routerLinkActive="active" ><i class="fas fa-envelope"></i> {{'Register.ContactUs'|translate}}</button>
                     </div>
                 </div>
                 <div class="chatter" #scrollMe [scrollTop]="scrollMe.scrollHeight" >
@@ -102,7 +109,8 @@
                             <p>{{msg.VendorMsg||msg.vendorMsg}}</p>
                         </div>
                         <div class="time-plate">
-                            {{msg.Date||msg.date}}
+                            {{msg.Date||msg.date|date: 'yyyy-MM-dd HH:mm'}}
+                           
                         </div>
                     </div>
                     <div class="chat-wrapper right" *ngIf="msg.CustomerMsg||msg.customerMsg">
@@ -113,7 +121,31 @@
                             <p>{{msg.CustomerMsg||msg.customerMsg}}</p>
                         </div>
                         <div class="time-plate">
-                            {{msg.Date||msg.date}}
+                            {{msg.Date||msg.date|date: 'yyyy-MM-dd HH:mm'}}
+                            <span class="icon-s-vc" *ngIf="!(msg.IsVendorRead||msg.isVendorRead)">
+                                <img src="/assets/img/uncheck-icon.png">
+                            </span>
+                            <span class="icon-s-vc"*ngIf="(msg.IsVendorRead||msg.isVendorRead)">
+                                <img src="/assets/img/check-icon.png">
+                            </span>
+                        </div>
+                    </div>
+                    <div class="chat-wrapper right" *ngIf="msg.attachment">
+                        <div class="chatter-title">
+                           {{msg.CustomerName||msg.CustomerName}}
+                        </div>
+                        <div class="chatter-message" (click)="openModal(msg.attachment)">
+                           
+                            <img src={{msg.attachment}} style="height: 80px;width: 80px;">
+                        </div>
+                        <div class="time-plate">
+                            {{msg.Date||msg.date|date: 'yyyy-MM-dd HH:mm'}}
+                            <span class="icon-s-vc" *ngIf="!(msg.IsVendorRead||msg.isVendorRead)">
+                                <img src="/assets/img/uncheck-icon.png">
+                            </span>
+                            <span class="icon-s-vc"*ngIf="(msg.IsVendorRead||msg.isVendorRead)">
+                                <img src="/assets/img/check-icon.png">
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -121,12 +153,18 @@
                 <div class="chat-footer">
                     <div class="chat-input">
                         <textarea rows="1" [value]="txtMessage"  (input)="txtMessage=$event.target.value" (keydown.enter)="sendMessage()" placeholder="Type your message here..."></textarea>
-                        <ul class="chat-action">
+                        <!-- <ul class="chat-action">
                             <li><a><img src="assets/img/svg/attachment.svg"/></a></li>
                             <li><a><img src="assets/img/svg/upload.svg"/></a></li>
                             <li><a><img src="assets/img/svg/smiling.svg"/></a></li>
-                        </ul>
+                        </ul> -->
                         <button class="btn btn-primary btn-sm chat-btn" (click)="sendMessage()"><img src="assets/img/send-btn-icon.png"/></button>
+                    </div>
+                    <div class="pull-right chat-f-icon">
+                        <label for="files">
+                            <img   src="assets/img/attachment-icon.png"/>
+                        </label>
+                        <input id="files" style="visibility: hidden;"  #Image  type='file' (change)="onSelectFile($event)" multiple   >
                     </div>
                 </div>
             </div>
@@ -135,3 +173,30 @@
 </div>
 </div>
 
+  <!-- start modal image 1 -->
+  <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':display}"  >
+    <div class="modal-dialog modal-lg modal-dialog-full" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" (click)="onCloseHandled()">&times;</button>
+         
+        </div>
+        <div class="modal-body pad-all-md">
+          <div class="row">
+      
+            <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+              <div class="row">
+                <div class="col-md-12">
+  
+                    <img src={{imagePath}} >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+  
+  <!-- end modal image 1 -->

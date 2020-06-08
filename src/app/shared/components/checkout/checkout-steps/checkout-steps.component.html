@@ -1092,8 +1092,12 @@
           </div>
         </div>
       </div>
-      <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple">
+      <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple" *ngIf="!calculatingCharges">
         <p style="font-size: 20px; color:#fff">{{'Register.LoadingWait'|translate}}</p>
+      </ngx-spinner>
+      <ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple" *ngIf="calculatingCharges">
+        <span style="font-size: 20px; color:#fff">{{'Register.PleaseWait'|translate}} </span>
+        <p style="font-size: 20px; color:#fff; margin-top: 5px;">{{'Register.ShipmentMsg'|translate}} </p>
       </ngx-spinner>
     </div>
   </div>

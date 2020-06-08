@@ -51,6 +51,9 @@ export class ProductlistComponent  {
   RequestUrl: string;
   Guid: string;
   PageUrl: string;
+  RequestedUrl: string;
+  previousPerPage: number;
+  showGrowSpinner: boolean=false;
   constructor(
 
     public datepipe: DatePipe,
@@ -81,6 +84,9 @@ export class ProductlistComponent  {
      private updateView():void{this.myViewModel = this.model.clone();}
 
     public loadView():void {
+      debugger
+     
+     
       this.Guid=this.tracklog.newGuid()
       this.PageUrl=  this.Router.url.replace("/","")
     let userId = +localStorage.getItem('UserId')
@@ -97,19 +103,29 @@ export class ProductlistComponent  {
     this.slanguage = localStorage.getItem('browseLang')
 
     this.route.queryParams.subscribe(params => {
-      debugger
       this.myViewModel.catvalue = params['Id'];
       this.myViewModel.page = 1
       this.myViewModel.perPage = 15
       this.myViewModel.selectedCategory = this.myViewModel.catvalue;
       this.myViewModel.searchData = params['searchData'];
-      debugger
       this.searchData=params['searchData'];
+debugger
+      if(localStorage.getItem("Filter"))
+      {
+      this.myViewModel.filter=JSON.parse( localStorage.getItem("Filter"));
+this.myViewModel.page=+localStorage.getItem("PageNo");
+this.myViewModel.perPage=+localStorage.getItem("PerPage");
+localStorage.removeItem("Filter")
+localStorage.removeItem("PageNo")
+localStorage.removeItem("PerPage")
+this.myViewModel.catvalue=this.myViewModel.filter.CategoryId
+this.myViewModel.selectedCategory=this.myViewModel.catvalue;
+this.myViewModel.searchData=this.myViewModel.filter.SearchData;
+this.searchData=this.myViewModel.filter.SearchData;
+      }
 
 this.myservice.getAdultCheck(+params['Id'],     this.searchData).subscribe((x:any)=>{
-  debugger
 this.openModel=x
-debugger
   if(x){
  var dis=   localStorage.getItem("Display")
  if(dis){
@@ -129,6 +145,7 @@ debugger
   if (this.myViewModel.searchData != "") {
     this.myViewModel.filter.SearchData = this.myViewModel.searchData;
   }
+  debugger
   this.getMainSearchProducts(this.myViewModel.catvalue, this.myViewModel.searchData, this.myViewModel.page, this.myViewModel.perPage);
   this.getVariants();
  }
@@ -141,7 +158,6 @@ debugger
     this.myFunction();
   }
   remove(){
-    debugger
     this.display='none'
     localStorage.setItem("Display",'none')
     this.openModel=false
@@ -150,6 +166,7 @@ debugger
   if (this.myViewModel.searchData != "") {
     this.myViewModel.filter.SearchData = this.myViewModel.searchData;
   }
+  debugger
   this.getMainSearchProducts(this.myViewModel.catvalue, this.myViewModel.searchData, this.myViewModel.page, this.myViewModel.perPage);
   this.getVariants();
 
@@ -193,9 +210,7 @@ this.cancel="Cancelar"
   emptyProductsList: any = false;
 
   getMainSearchProducts(catvalue: number, searchData: string, page: number, pageSize: number): boolean {
-    //this.myservice.getproductsByCategoryData(catvalue, searchData, page, pageSize).subscribe(data => {
-
-    this.myViewModel.filter.CategoryId = catvalue;
+        this.myViewModel.filter.CategoryId = catvalue;
     this.myViewModel.filter.SearchData = searchData;
     this.spinner.show();
     this.RequestUrl='products/getFilterProducts?page='+page+"&pagesize="+pageSize,  JSON.stringify( this.myViewModel)
@@ -203,10 +218,7 @@ this.cancel="Cancelar"
 
     this.myservice.getFilterProducts(this.myViewModel.filter, page, pageSize).subscribe((data:any) => {
       debugger
-      // if(data[0].IsAdult)
-      // this.display='block'
-
-      this.service.getCategoryHierarchy(this.myViewModel.catvalue).subscribe(category => {
+           this.service.getCategoryHierarchy(this.myViewModel.catvalue).subscribe(category => {
 
         this.myViewModel.Cat = category;
       })
@@ -265,10 +277,7 @@ this.cancel="Cancelar"
     this.myViewModel.filter.CategoryId = catvalue
     this.myViewModel.catvalue = catvalue;
     this.RequestUrl='products/getFilterProducts?page='+page+"&pagesize="+pageSize, this.myViewModel
-    this.tracklog.handleSuccess1(this.description="breadcrumbs",this.Action="Breadcrumbs of product","Request",this.RequestUrl,this.PageUrl,this.Guid)
-
-   // this.tracklog.handleSuccess(this.description="get products By Search",this.Action="User searched product by ",JSON.stringify(this.myViewModel))
-    //this.myservice.getproductsByCategoryData(catvalue,this.searchData, page, pageSize).subscribe(data => {
+    this.tracklog.handleSuccess1(this.description="breadcrumbs",this.Action="Breadcrumbs of product","Request",this.RequestUrl,this.PageUrl,this.Guid) 
     this.myservice.getFilterProducts(this.myViewModel.filter, page, pageSize).subscribe((data) => {
 
       this.service.getCategoryHierarchy(this.myViewModel.catvalue).subscribe(category => {
@@ -457,7 +466,6 @@ this.cancel="Cancelar"
     if (minprice != "" || maxprice != "" || this.myViewModel.selectedVariants.length > 0 || this.myViewModel.searchData != "") {
       this.myViewModel.page = 1
     }
-    //this.getMainSearchProducts(this.catvalue, this.searchData, this.page, this.perPage)
     this.tracklog.handleSuccess1(this.description="get products By price filter",this.Action="User filter product","Request",this.RequestUrl,this.PageUrl,this.Guid)
 
     this.decidefunction();
@@ -474,8 +482,7 @@ this.cancel="Cancelar"
     this.myViewModel.filter.CategoryId = this.myViewModel.catvalue;
     this.myViewModel.filter.SearchData = this.myViewModel.searchData;
     this.myViewModel.page = 1
-   // this.tracklog.handleSuccess(this.description="product Filter according to rate on product catelogue page ",this.Action="Rating product clicked",JSON.stringify( this.myViewModel))
-    this.tracklog.handleSuccess1(this.description="product Filter according to rate on product catelogue page ",this.Action="User filter product","Request",this.RequestUrl=this.PageUrl,this.PageUrl,this.Guid)
+   this.tracklog.handleSuccess1(this.description="product Filter according to rate on product catelogue page ",this.Action="User filter product","Request",this.RequestUrl=this.PageUrl,this.PageUrl,this.Guid)
 
     this.decidefunction();
   }
@@ -487,34 +494,31 @@ this.cancel="Cancelar"
     //this.myViewModel.filter.CategoryId = this.myViewModel.catvalue;
     this.myViewModel.filter.SearchData = this.myViewModel.searchData;
     this.myViewModel.page = 1;
-    //this.tracklog.handleSuccess(this.description="page data sorted on product catelogue page ",this.Action="Page sorted",JSON.stringify( this.myViewModel))
     this.tracklog.handleSuccess1(this.description="page data sorted on product catelogue page ",this.Action="User filter product","Request",this.RequestUrl=this.PageUrl,this.PageUrl,this.Guid)
 
     this.decidefunction();
 
   }
   decidefunction() {
-    // if (this.filter.SelectedVariants.length == 0 && this.filter.MinPrice == " " && this.filter.MaxPrice == "" && this.filter.SearchData == "" && this.filter.AvgRate == 0 && this.filter.SortBy == "") {
-    //   //changed
-    //   this.myservice.getproductsByCategoryData(this.catvalue,this.searchData, this.page, this.perPage).subscribe(data => {
-    //     this.Products = data;
-    //     if (this.Products.length > 0) {
-    //       this.count = this.Products[0].Count;
-    //       this.pricelist = this.Products[0].PriceList;
-    //     }
-    //     else {
-    //       this.count = 0;
-    //       this.pricelist = [];
-    //     }
-    //   })
-    // }
-    // else {
-    //if (this.filter)
+    debugger
     var filter=this.myViewModel.filter
     this.RequestUrl='products/getFilterProducts?page='+this.myViewModel.page+"&pagesize="+this.myViewModel.perPage+JSON.stringify(filter)
 
       this.myservice.getFilterProducts(filter, this.myViewModel.page, this.myViewModel.perPage).subscribe((data) => {
-
+        debugger
+        this.showGrowSpinner=false;
+if(this.myViewModel.filter.IsAll==true)
+{
+  if(!this.myViewModel.Products)
+  this.myViewModel.Products=data;
+  else
+  data.forEach(element => {
+    this.myViewModel.Products.push(element);
+  });
+  
+  this.myViewModel.filter.CurrentCount=this.myViewModel.Products.length;
+}
+else
         this.myViewModel.Products = data;
         this.myViewModel.Products.forEach(d => {
           let correcttime=this.datepipe.transform(d.ActiveTo, 'yyyy-MM-dd');
@@ -545,7 +549,7 @@ this.cancel="Cancelar"
     this.myViewModel.filter.SelectedVariants = this.myViewModel.selectedVariants;
     this.myViewModel.filter.CategoryId = this.myViewModel.catvalue;
     this.myViewModel.filter.SearchData = this.myViewModel.searchData;
-   // this.tracklog.handleSuccess(this.description="page changed on product catelogue page ",this.Action="Page changed",JSON.stringify( this.myViewModel))
+   
     this.tracklog.handleSuccess1(this.description="page changed on product catelogue page ",this.Action="Page changed","Request",this.RequestUrl=this.PageUrl,this.PageUrl,this.Guid)
 
     this.decidefunction();
@@ -556,7 +560,7 @@ this.cancel="Cancelar"
     this.myViewModel.filter.SelectedVariants = this.myViewModel.selectedVariants;
     this.myViewModel.filter.CategoryId = this.myViewModel.catvalue;
     this.myViewModel.filter.SearchData = this.myViewModel.searchData;
-   // this.tracklog.handleSuccess(this.description="page changed on product catelogue page ",this.Action="Page changed",JSON.stringify( this.myViewModel))
+   
     this.tracklog.handleSuccess1(this.description="page changed on product catelogue page ",this.Action="Page changed","Request",this.RequestUrl=this.PageUrl,this.PageUrl,this.Guid)
 
     this.decidefunction();
@@ -567,33 +571,41 @@ this.cancel="Cancelar"
     this.myViewModel.filter.SelectedVariants = this.myViewModel.selectedVariants;
     this.myViewModel.filter.CategoryId = this.myViewModel.catvalue;
     this.myViewModel.filter.SearchData = this.myViewModel.searchData;
-   // this.tracklog.handleSuccess(this.description="page changed on product catelogue page ",this.Action="Page changed",JSON.stringify( this.myViewModel))
+   
     this.tracklog.handleSuccess1(this.description="page changed on product catelogue page ",this.Action="Page changed","Request",this.RequestUrl=this.PageUrl,this.PageUrl,this.Guid)
 
     this.decidefunction();
   }
   newPageSize(e) {
+    debugger
     if (e == 0) {
       e = this.myViewModel.count;
+      this.myViewModel.filter.PreviousPerPage=this.myViewModel.perPage
+      this.myViewModel.filter.IsAll=true
+      this.myViewModel.filter.CurrentCount=this.myViewModel.Products.length;
     }
-    this.myViewModel.perPage = e;
+    this.myViewModel.perPage = this.myViewModel.count;
     this.myViewModel.filter.SelectedVariants = this.myViewModel.selectedVariants;
     this.myViewModel.filter.CategoryId = this.myViewModel.catvalue;
     this.myViewModel.filter.SearchData = this.myViewModel.searchData;
-   // this.tracklog.handleSuccess(this.description="page changed on product catelogue page ",this.Action="Page changed",JSON.stringify( this.myViewModel))
+   
     this.tracklog.handleSuccess1(this.description="page changed on product catelogue page ",this.Action="Page changed","Request",this.RequestUrl=this.PageUrl,this.PageUrl,this.Guid)
 
     this.decidefunction();
   }
   //render to detail page
   passTheSalt(Id: number, variantId,event) {
+localStorage.setItem("Filter",JSON.stringify(this.myViewModel.filter))
+localStorage.setItem("PageNo",this.myViewModel.page.toString())
+localStorage.setItem("PerPage",this.myViewModel.perPage.toString())
     this.RequestUrl="product-details?Id="+ Id+"&variantId=" +variantId
+    this.RequestedUrl="product-details?Id="+ Id+"&variantId=" +variantId
     this.tracklog.handleSuccess1(this.description="View product details",this.Action="product details button clicked","Request",this.RequestUrl=this.PageUrl,this.PageUrl,this.Guid)
 
     if (event.ctrlKey) {
       window.open(this.myViewModel.Url, '_blank'); // in new tab
   } else
-
+  //window.open(this.RequestedUrl, '_blank'); 
     this.Router.navigate(['/product-details'], { queryParams: { Id: Id, variantId: variantId } });
   }
   newTab(){
@@ -667,8 +679,11 @@ this.cancel="Cancelar"
     //return false;
   }
 
-  // ngAfterViewInit() {
-  //
-  //   this.myservice.appDrawer = this.appDrawer;
-  // }
+  onScrollRight(){
+    if(this.myViewModel.filter.IsAll==true)
+    {
+      this.showGrowSpinner=true;
+      this.decidefunction();
+    }
+  }
 }

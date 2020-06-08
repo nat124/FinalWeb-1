@@ -102,6 +102,8 @@ import { ChatComponent } from './chat/chat.component';
 import { ChatReportComponent } from './report/chat/chat.component';
 import { CheckoutComponent } from 'src/app/modules/admin/checkout/checkout.component';
 import { chatService } from './chat/chat.service';
+import { QuestionModule } from './question/question.module';
+import { ScrollToBottomDirective } from 'src/app/scroll-to-bottom.directive';
 
 
 
@@ -118,6 +120,7 @@ const DROPZONECONFIG: DropzoneConfigInterface = {
 };
 
 const routes: Routes = [
+  {path:"question",loadChildren:'src/app/modules/admin/question/question.module#QuestionModule'},
   {path:"balance",loadChildren:'src/app/modules/admin/vendor-balance/vendor-balance.module#VendorBalanceModule'},
   {path:"track",loadChildren:'src/app/modules/admin/track/track.module#TrackModule'},
 
@@ -229,6 +232,7 @@ const routes: Routes = [
 @NgModule({
 
   declarations: [
+    
     OrdersDetailsComponent,
     FooterListComponent,
     AddToNewsletterComponent,
@@ -298,6 +302,8 @@ BannerUploadComponent,
     // DropzoneModule
   ],
   imports: [
+    
+    QuestionModule,
     ProductsModule,
     SpinWheelModule,
     CategorycommissionModule,
@@ -310,7 +316,13 @@ BannerUploadComponent,
     FormsModule,
     ReactiveFormsModule,
     //ProductsModule,
-    TranslateModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
     RouterModule,
     LayoutsModule,
     BsDatepickerModule.forRoot(),
@@ -322,7 +334,7 @@ BannerUploadComponent,
     TestimonialModule,
     DealModule,
     ImageCropperModule,
-    TrackModule
+    TrackModule,
 
 
   ],

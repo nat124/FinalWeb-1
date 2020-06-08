@@ -1,0 +1,59 @@
+<div class="main-panel">
+    <div class="content">
+      <div class="page-inner">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-head-row">
+                  <div class="card-title">{{'Register.CustomerQuestions'|translate}}</div>
+                  <div class="btn-group btn-group-page-header ml-auto"></div>
+                </div>
+              </div>
+              
+              <div class="row pt-3">
+                <div class="col-md-12">
+                  <div class="table-responsive">
+                    <table class="table table-striped">
+                      <thead>
+                        <tr>
+                          <th>{{'Register.Question'|translate}}</th>
+                          <th>{{'Register.PostedOn'|translate}}</th>
+                          <th>{{'Register.Status'|translate}}</th>
+                          <th>{{'Register.Action'|translate}}</th>
+                          
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr *ngFor="let item of all">
+                          <td class="ml-2">{{item.Question}}</td>
+                          <td>{{item.CreatedOn|date}}</td>
+                          <td *ngIf="item.AModel.length>0">Answered</td>
+                          <td *ngIf="item.AModel.length==0">Un-Answered</td>
+                          <td *ngIf="item.AModel.length==0" ><button class="btn btn-primary" [routerLink]="['/admin/question/answer']"  [queryParams]="{id: item.Id}"routerLinkActive="router-link-active" >Answer</button></td>
+                          <td  *ngIf="item.AModel.length>0"><button class="btn btn-primary" [routerLink]="['/admin/question/answer']"  [queryParams]="{id: item.Id}"routerLinkActive="router-link-active" > View Answer</button></td>
+                          <td> <button (click)="delete(item.Id)" class="btn btn-sm btn-outline-danger mr-2"><i
+                            class="fas fa-trash"></i></button></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div class="no-left-right" *ngIf="count">
+                    <app-admin-pagination [count]="count" [page]="page" [(perPage)]="perPage" [pagesToShow]="pagesToShow"
+                      (goPrev)="prevPage()" (goNext)="nextPage()" (goPage)="goToPage($event)"
+                      (pageSize)="newPageSize($event)">
+                    </app-admin-pagination>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- </div>
+    </div> -->
+  </div>
+  

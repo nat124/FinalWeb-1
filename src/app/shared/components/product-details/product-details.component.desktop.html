@@ -334,7 +334,7 @@
                   </div>
                 </div>
               </div>
-              <div> <button class="btn btn-primary" (click)="goToChat(myViewModel.productId,myViewModel.LandingVariantId)">Chat</button></div>
+             
               <div class="product-description">
                 <h1>{{'Register.ProductDescription'|translate}}</h1>
                 <span>
@@ -578,6 +578,8 @@
             </div>
           </div>
         </div>
+        <!-- Q&A -->
+<app-question-answer [VariantId]="variantId"></app-question-answer>
          <!-- You may like Section -->
    <div class="container-fluid mrgn-b-sm" *ngIf="myViewModel.likeProducts && myViewModel.likeProducts.length>0">
     <div class="row">

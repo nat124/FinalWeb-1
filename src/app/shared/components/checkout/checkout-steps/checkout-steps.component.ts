@@ -67,6 +67,7 @@ export class CheckoutStepsComponent implements OnInit {
   description: string;
   Action: string;
   Guid:any
+  calculatingCharges: boolean=false;
   constructor( public _service: CheckoutserviceService,
     public _serviceShipping: shippingervice,
     public service: MycartService,
@@ -711,6 +712,7 @@ this.tracklog.handleSuccess(this.description="check For User Address on checkout
 
   }
   checkCharges() {
+    this.calculatingCharges=true;
     this.spinner.show();
     if (this.PostalCode) {
       var model = {

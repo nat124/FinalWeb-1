@@ -1316,10 +1316,13 @@ $("#Variant").val(this.selectedEditOption)
   }
 
   ImageDelete(i, j) {
-
+debugger
+var path=this.imageList[i].images[j].image;
     this.imageList[i].images.splice(j, 1);
+
     if (this.imageList[i].images.length == 0)
       this.imageList.splice(i, 1);
+
   }
 
   AddImage(ImageVariant, isDefault_Image: boolean) {

@@ -40,12 +40,13 @@ export class ProductDetailsComponent  {
   PageUrl: string="product-details";
   Guid: string;
   RequestUrl:string
+  variantId: any;
   constructor(
     public tracklog:Tracklog,
     public datepipe: DatePipe,
     private toastr: ToastrService,
     private Router: Router,
-    private route: ActivatedRoute,
+    public route: ActivatedRoute,
     private http: HttpClient,
     private userLog: UserLogService,
     private productService: ProductService,
@@ -90,7 +91,9 @@ export class ProductDetailsComponent  {
       "https://wittlock.github.io/ngx-image-zoom/assets/thumb.jpg";
     this.http.get("https://api.ipify.org/?format=json").subscribe(data => {
       this.route.queryParams.subscribe(params => {
+        debugger
         this.myViewModel.productId = params["Id"];
+        this.variantId=params["variantId"];
         if (this.myViewModel.productId != null) {
           this.RequestUrl= "tag/getTagsFront?productId="+this.myViewModel.productId
           this.tracklog.handleSuccess1(this.myViewModel.description="Getting product tags on product detail page ",this.myViewModel.Action="Product tag rendering","Request",this.RequestUrl,this.PageUrl,this.Guid)
@@ -201,6 +204,15 @@ error => this.tracklog.handleError1(error,this.myViewModel.Action="get bread cru
     });
   }
   addCompare() {
+    if(+localStorage.getItem("compareCount")>=4)
+    {
+      if(localStorage.getItem("browseLang")=="english")
+      this.toastr.warning("Maximum 4 products can be added.")
+      else
+      this.toastr.warning("Se pueden agregar un máximo de 4 productos.")
+    }
+    else
+    {
     this.RequestUrl="compare/SaveCompareProduct?variantId=" + this.myViewModel.LandingVariantId
     if (this.myViewModel.ComporeProduct.length == 0) {
       this.tracklog.handleSuccess1(this.myViewModel.description="Product adding to compare from product detail page",this.myViewModel.Action="Compare product","Request",this.RequestUrl,this.PageUrl,this.Guid)
@@ -249,6 +261,7 @@ error => this.tracklog.handleError1(error,this.myViewModel.Action="get bread cru
         }
       }
     }
+  }
   }
   addtags(val: string) {
     this.RequestUrl= "tag/AddTag?productId=" + this.myViewModel.productId + "&tagname=" + val
@@ -448,11 +461,7 @@ error => this.tracklog.handleError1(error,this.myViewModel.Action="get bread cru
   //   element.style.display = "none";
   // }
   //display image as main image
-  goToChat(Id,VariantId)
-{
-debugger
-this.Router.navigate(['/vendor-chat'], { queryParams: { Id: Id, variantId: VariantId } });
-}
+
   getValue(val:any,i:any) {
     this.RequestUrl= this.PageUrl
     this.tracklog.handleSuccess1(this.myViewModel.description="change picture of product",this.myViewModel.Action="Picture change","Request",this.RequestUrl,this.PageUrl,this.Guid)

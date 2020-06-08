@@ -9381,3 +9381,10 @@ yx-axis
 #custom-search-input button{
   position: inherit;
 }
+.icon-s-vc img{
+  width: 12px;
+}
+.chat-f-icon img{
+  width: 32px;
+  margin-top: 25px;
+}

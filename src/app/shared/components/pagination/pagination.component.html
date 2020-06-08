@@ -22,30 +22,6 @@
             </select>
             <span>{{'Register.PerPage'|translate}}</span>
             </div>
-    
     </div>
     </div>
-    
     <hr class="display-no" style="clear:both;">
-
-
-        <!-- <span>showing{{ getMin() }} of {{ getMax() }} of {{ count }} items</span> &nbsp;
-       
-        <div>
-          <label>Show</label>
-          <select (change)="getPageSize($event.target.value)" [(ngModel)]="selectedSize" >
-            <option [value]="4">4</option>
-            <option [value]="8">8</option>
-            <option [value]="12">12</option>
-            <option [value]="15">15</option>
-            <option [value]="30">30</option>
-            <option [value]="80">80</option>
-            <option [value]="0">All</option>
-          </select>
-          <label>per page</label>
-        </div>
-        <button (click)="onPrev()" [disabled]="page === 1 || loading" [ngClass]="{'prev-btn active': page != 1}">&laquo; </button>
-        <button *ngFor="let pageNum of getPages()" (click)="onPage(pageNum)" [class.currentPage]="page==pageNum" >{{pageNum}}</button>
-        <button (click)="onNext()" [disabled]="lastPage() || loading" class="next-btn"> &raquo;</button> -->
-        <!-- <span>{{ totalPages() }} Pages</span> -->
-      

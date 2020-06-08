@@ -1,5 +1,12 @@
 {
   "Register": {
+    "Resolved":"Resolved",
+    "Resolve":"Resolve",
+    "SearchByVendor":"Search By Vendor Name",
+    "StillUnhappy":"Still Unhappy?",
+    "ContactUs":"Contact Us",
+    "PleaseWait":"Please Wait...",
+    "ShipmentMsg":"We are calculating shipment charges on your order",
     "RelatedTags":"Related Tags",
     "RecentlyBought":"You recently bought",
     "YouMayLike":"You may also like",
@@ -149,9 +156,6 @@
     "Categoryspanishname":"Category spanish name",
     "Add":"Add",
     "SelectCustomers1": "Select Customers",
-
-
-    
     "Newsletter":"Newsletter",
     "GuestUserTrack":"Track order details will be sent to your email when it is packed.",
     "Lenght":"Mobile should be of 10 digits.",

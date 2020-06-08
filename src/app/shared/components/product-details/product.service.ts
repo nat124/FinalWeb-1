@@ -94,6 +94,7 @@ addtags(productId:any,val:string){
     return this.http.get(this.url+"category/checkWishList?VarientId="+VarientId+"&UserId=" + UserId +"&IpAddress=" + IpAddress)
   }
   SaveCompareProduct(VarientId:number){
+    
     let UserId:any= localStorage.getItem('UserId')
     if(UserId==null){
       UserId =0

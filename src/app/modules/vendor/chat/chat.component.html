@@ -11,7 +11,7 @@
             <div class="messenger-list">
                 <div id="custom-search-input">
                     <div class="input-group col-md-12">
-                        <input type="text" #searchtext class="  search-query form-control" placeholder="Search" />
+                        <input type="text" #searchtext class="  search-query form-control" placeholder="{{'Register.Search'|translate}}" />
                         <span class="input-group-btn">
                             <button class="btn btn-success" type="button" (click)="bySearch(searchtext.value)"  >
                                 <span class=" fa fa-search"></span>
@@ -76,11 +76,11 @@
                     </div>
                 </div>
             </div>
-            <div class="chat-box">
+            <div class="chat-box" *ngIf="messages && messages.length>0">
                 <div class="chat-header">
                     <div class="header-icon" *ngIf="messages.length>0 && messages[0].ProductImage!=null;else elseblock">
                         <img src={{messages[0].ProductImage}}>
-                        <i class="fa fa-circle green"></i>
+                        <!-- <i class="fa fa-circle green"></i> -->
                     </div>
                     <ng-template #elseblock>
                         <div class="header-icon">
@@ -89,11 +89,12 @@
                         </div>
                     </ng-template>
                     <div class="header-details" *ngIf="messages && messages[0]">
-                        <!-- ProductName -->
-                        <h5 class="user-icon">{{messages[0].ProductName}}</h5>   
                         <!--c ustomerName -->
                         <span class="header-summery font-12">{{messages[0].CustomerName}}</span>
-                        <button class="btn btn-success pull-right" *ngIf="messages &&messages[0]" (click)="resolve(messages[0].Id)" >Resolve</button>
+                        <!-- ProductName -->
+                        <h5 class="user-icon">{{messages[0].ProductName}}</h5>   
+                        
+                        <button class="btn btn-success pull-right" *ngIf="messages &&messages[0]" (click)="resolve(messages[0].Id)" >{{'Register.Resolve'|translate}}</button>
                     </div>
                    
                 </div>
@@ -103,11 +104,24 @@
                         <div class="chatter-title">
                    {{msg.CustomerName||msg.customerName}}
                         </div>
-                        <div class="chatter-message">
+                        <div class="chatter-message" >
                             <p>{{msg.CustomerMsg||msg.customerMsg}}</p>
                         </div>
                         <div class="time-plate">
-                            {{msg.Date||msg.date}}
+                            {{msg.Date||msg.date|date: 'yyyy-MM-dd HH:mm'}}
+                            
+                        </div>
+                    </div>
+                    <div class="chat-wrapper left" *ngIf="msg.attachment">
+                        <div class="chatter-title">
+                           {{msg.CustomerName||msg.CustomerName}}
+                        </div>
+                        <div class="chatter-message" (click)="openModal(msg.attachment)">
+                           
+                            <img src={{msg.attachment}} style="height: 80px;width: 80px;">
+                        </div>
+                        <div class="time-plate">
+                            {{msg.Date||msg.date|date: 'yyyy-MM-dd HH:mm'}}
                         </div>
                     </div>
                     <div class="chat-wrapper right" *ngIf="msg.vendorMsg || msg.VendorMsg">
@@ -118,7 +132,13 @@
                             <p>{{msg.vendorMsg || msg.VendorMsg}}</p>
                         </div>
                         <div class="time-plate">
-                            {{msg.Date||msg.date}}
+                            {{msg.Date||msg.date|date: 'yyyy-MM-dd HH:mm'}}
+                            <span class="icon-s-vc" *ngIf="!(msg.IsCustomerRead||msg.isCustomerRead)">
+                                <img src="/assets/img/uncheck-icon.png">
+                            </span>
+                            <span class="icon-s-vc"*ngIf="(msg.IsCustomerRead||msg.isCustomerRead)">
+                                <img src="/assets/img/check-icon.png">
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -133,6 +153,12 @@
                         </ul> -->
                         <button class="btn btn-primary btn-sm chat-btn" (click)="sendMessage()"><img src="assets/img/send-btn-icon.png"/></button>
                     </div>
+                    <div class="pull-right chat-f-icon">
+                        <label for="files">
+                            <img   src="assets/img/attachment-icon.png"/>
+                        </label>
+                        <input id="files" style="visibility: hidden;"  #Image  type='file' (change)="onSelectFile($event)" multiple   >
+                    </div>
                 </div>
             </div>
         </div>
@@ -140,45 +166,30 @@
 </div>
 </div>
 </div>
-<!-- <div class="container">  
-    <h3 class=" text-center chat_header">Chat Application</h3>  
-    <div class="messaging">  
-      <div class="inbox_msg">  
-        <div class="mesgs">  
-          <div class="msg_history">  
-            <div *ngFor="let msg of messages">  
-            <div class="incoming_msg" *ngIf="msg.type == 'received'">  
-              <div class="incoming_msg_img"> </div>  
-              <div class="received_msg">  
-                <div class="received_withd_msg">  
-                  <p>  
-                   {{msg.message}}   
-                  </p>  
-                  <span class="time_date"> {{msg.date | date:'medium'}} </span>  
-                </div>  
-              </div>  
-            </div>  
-            <div class="outgoing_msg" *ngIf="msg.type == 'sent'">  
-              <div class="sent_msg">  
-                <p>  
-                    {{msg.message}}   
-                </p>  
-                <span class="time_date"> {{msg.date | date:'medium'}}</span>  
-              </div>  
-            </div>  
-          </div>  
-          </div>  
-          <div class="type_msg">  
-            <div class="input_msg_write">  
-              <input type="text" class="write_msg" [value]="txtMessage"  
-              (input)="txtMessage=$event.target.value" (keydown.enter)="sendMessage()" placeholder="Type a message" />  
-              <button class="msg_send_btn" type="button"  (click)="sendMessage()"><i class="fa fa-paper-plane-o" aria-hidden="true"></i></button>  
-            </div>  
-          </div>  
-        </div>  
-      </div>  
-    
-    </div>  
-  </div>   
+ <!-- start modal image 1 -->
+ <div class="modal" tabindex="-1" role="dialog" [ngStyle]="{'display':display}"  >
+    <div class="modal-dialog modal-lg modal-dialog-full" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" (click)="onCloseHandled()">&times;</button>
+         
+        </div>
+        <div class="modal-body pad-all-md">
+          <div class="row">
+      
+            <div class="col-md-12 col-sm-12 col-lg-12 col-xs-12">
+              <div class="row">
+                <div class="col-md-12">
   
-   -->
+                    <img src={{imagePath}} >
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+  
+  <!-- end modal image 1 -->

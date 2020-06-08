@@ -11,5 +11,8 @@ export class Message {
     VendorMsg:string;
     CustomerMsg:string;
     ProductImage:string;
+    IsCustomerRead:boolean;
+    IsVendorRead:boolean;
+    attachment:string;
 
   }

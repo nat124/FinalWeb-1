@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { TranslateService } from '@ngx-translate/core';
 import { Router } from '@angular/router';
 import { VendorLayoutService } from './vendorlayout.service';
+import { type } from 'os';
 
 @Component({
   selector: 'app-vendorlayout',
@@ -98,12 +99,15 @@ debugger
     if (notification) {
       var typeId = notification.NotificationTypeId;
       var data=notification.TargetURL;
+      if(typeId==8)
+      {
       var splittedData0=data.split('&')[0];
       var splittedData1=data.split('&')[1];
       var splittedData2=data.split('&')[2]
             var Id=splittedData0.split('=')[1];
             var variantid=splittedData1.split('=')[1];
             var custId=splittedData2.split('=')[1];
+    }
       if (!typeId)
         return false;
       switch (typeId) {
@@ -114,6 +118,10 @@ debugger
           await this.readNotification(notification, typeId);
           this._route.navigate(['/vendor/chat'], { queryParams: { Id:Id,variantId: variantid,custId:custId}})
           
+          break;
+          case 9:
+          await this.readNotification(notification, typeId);
+          this._route.navigate(['/vendor/question'])
           break;
         default:
          // console.log("No such data exists!");
@@ -134,6 +142,9 @@ debugger
             case 7:
               //this.goToDetails(notification);
               break;
+              case 9:
+               this.goToQuestions(notification)
+                break;
             default:
               console.log("No such data exists!");
               break;
@@ -157,6 +168,14 @@ debugger
       }
     }
   }
+  goToQuestions(notification) {
+    var url = notification.TargetURL;
+    if (url) {
+        this._route.navigate(['/question']);
+        this.ngOnInit();
+      }
+    }
+  
 //End of notification
 
 }

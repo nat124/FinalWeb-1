@@ -26,6 +26,7 @@ export class InvoiceComponent implements OnInit {
 getorder(id)
 {
   this.service.getOrderById(id).subscribe(data=>{
+    debugger
     this.order=data;
   })
 }

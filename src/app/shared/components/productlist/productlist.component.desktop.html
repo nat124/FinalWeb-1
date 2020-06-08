@@ -440,7 +440,7 @@
                   <div class="listing-right-container filter-products">
                     <div class="filter-products-inner">
       
-                      <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+                      <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12" infiniteScroll [infiniteScrollDistance]="2" [infiniteScrollThrottle]="1000" (scrolled)="onScrollRight()">
                         <div class="row">
                           <app-pagination [count]="myViewModel.count" [page]="myViewModel.page" [(perPage)]="myViewModel.perPage" [pagesToShow]="myViewModel.pagesToShow"
                             (goPrev)="prevPage()" (goNext)="nextPage()" (goPage)="goToPage($event)"
@@ -450,9 +450,6 @@
                         <div class="listing-custome" *ngIf="myViewModel.IsGrid==true">
                           <div class="row" *ngIf=" myViewModel.Products && myViewModel.Products.length>0 && myViewModel.Products[0].Id!=0;else elseBlock">
                             <div class="col-sm-3 col-lg-3 col-md-3 col-xl-3 col-xs-12 text-center" *ngFor="let p of myViewModel.Products">
-      
-      
-                             
       
                                 <div class="bestseller-box" *ngIf="p.InStock>0;else elseblock">
                                   <div class="bestseller-sale" *ngIf="p.Discount>0">{{p.Discount}}%</div>
@@ -576,9 +573,6 @@
                                           
                                                   </div>
                                                    </div>
-                      
-                      
-                      
                              <!-- color options end -->
                                   <div class="bestseller-text"*ngIf="p.Name">{{p.Name.length > 15 ? p.Name.substring(0,15)+"..." : p.Name}}
                                   </div>
@@ -943,7 +937,11 @@
                         </div>
                         <!-- ENd Detail view -->
                       </div>
+                      <div *ngIf="showGrowSpinner" class="loader">
+                        <div class="loader_ajax_small"></div>
+                      </div>
                     </div>
+                    
                     <div class="no-left-right">
                       <app-pagination [count]="myViewModel.count" [page]="myViewModel.page" [(perPage)]="myViewModel.perPage" [pagesToShow]="myViewModel.pagesToShow"
                         (goPrev)="prevPage()" (goNext)="nextPage()" (goPage)="goToPage($event)"

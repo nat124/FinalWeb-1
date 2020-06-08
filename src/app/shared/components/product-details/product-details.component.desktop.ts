@@ -48,7 +48,9 @@ export class ProductDetailsDesktopComponent extends ProductDetailsComponent impl
       super(tracklog,datepipe,toastr,Router,route,http,userLog,productService,cartservice,shipService,myservice,googleAnalyticsService,sanitizer,applicationStateService)
   }
   ngOnInit(){
-     debugger
+  this.route.queryParams.subscribe(params => {
+      this.variantId=params["variantId"];
+     })
     super.loadView();
   }
 }

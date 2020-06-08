@@ -460,10 +460,10 @@
                                 </div>
                               </span> -->
                                   <div class="cart-thumb-list">
-                                    <a *ngIf="p.Image!=null"  (click)="passTheSalt(p.Id,p.VariantDetailId,$event)">
+                                    <a *ngIf="p.Image150!=null"  (click)="passTheSalt(p.Id,p.VariantDetailId,$event)">
                                       <img src={{p.Image150}} />
                                     </a>
-                                    <a *ngIf="p.Image==null"  (click)="passTheSalt(p.Id,p.VariantDetailId,$event)">
+                                    <a *ngIf="p.Image150==null"  (click)="passTheSalt(p.Id,p.VariantDetailId,$event)">
                                       <img src="assets/img/dummy-image.jpg"/>
                                     </a>
                                   </div>
@@ -629,9 +629,9 @@
                                     </div>
                                     <div class="col-sm-12 col-xs-12">
                                       <a  (click)="passTheSalt(p.Id,p.VariantDetailId,$event)">
-                                        <span class="price">${{p.PriceAfterDiscount}}</span>
+                                        <span class="price">${{p.PriceAfterDiscount.toFixed(2)}}</span>
                                       </a>
-                                      <span class="discount" *ngIf="p.Discount>0">${{p.SellingPrice}}</span>
+                                      <span class="discount" *ngIf="p.Discount>0">${{p.SellingPrice.toFixed(2)}}</span>
                                       <span class="discount-percentage" *ngIf="p.Discount>0">{{p.Discount}}%</span>
                                       <p
                                         [innerHTML]="p.Description && p.Description.length > 70 ? p.Description.substring(0,70)+'...': p.Description">

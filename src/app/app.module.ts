@@ -142,8 +142,10 @@ import { LayoutSquareComponent } from './shared/components/layout-square/layout-
 import { LayoutReactangleComponent } from './shared/components/layout-reactangle/layout-reactangle.component';
 import { LogsDhashboardComponent } from './modules/logs-dhashboard/logs-dhashboard.component';
 import { ScrollToBottomDirective } from './scroll-to-bottom.directive';
+import { ContactUsComponent } from './shared/components/contact-us/contact-us.component';
+import { QuestionAnswerComponent } from './shared/components/question-answer/question-answer.component';
 //import { LiveDhashboardComponent } from './modules/live-dhashboard/live-dhashboard.component';
-
+import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 //import { VendorchatComponent } from './shared/components/vendorchat/vendorchat.component';
 
 export function HttpLoaderFactory(http: HttpClient) {
@@ -161,6 +163,7 @@ export function tokenGetter() {
   }
 @NgModule({
   declarations: [
+    QuestionAnswerComponent,
     ScrollToBottomDirective,
     OrderReportComponent,
     AllDealsComponent,
@@ -223,9 +226,11 @@ export function tokenGetter() {
    LayoutSquareComponent,
    LayoutReactangleComponent,
    LogsDhashboardComponent,
+   ContactUsComponent,
    //LiveDhashboardComponent,
   ],
   imports: [
+    InfiniteScrollModule,
     CarouselModule,
     CountdownTimerModule.forRoot(),
     FooterModule,

@@ -1,0 +1,39 @@
+<div class="main-panel">
+    <div class="content">
+      <div class="page-inner">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card">
+              <div class="card-header">
+                <div class="card-head-row">
+                  <div class="card-title">{{'Register.CustomerQuestionsAnswer'|translate}}</div>
+                  <div class="btn-group btn-group-page-header ml-auto"></div>
+                </div>
+              </div>
+              
+              <div class="row pt-3">
+                
+                  <h5>Q:</h5>
+                  <span *ngIf="all">{{all.Question}}</span>
+             
+                  <h3>A:</h3>
+                  <div *ngIf="all && all.AModel.length>0 && !update">
+                  <p >{{all.AModel[0].Answer}}
+                 </p>
+                 <button (click)="update=true">Edit</button>
+                  </div>
+                 <div *ngIf="all && all.AModel.length==0||update">
+                   
+                  <textarea #answer value={{all.AModel[0].Answer}} placeholder="Type your answer here..." class="form-control " ></textarea>
+                  <button (click)="save(answer.value)">Save</button>
+                 </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- </div>
+    </div> -->
+  </div>
+  

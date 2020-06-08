@@ -1,0 +1,17 @@
+<div>
+    <h3>Have a question?</h3>
+    <input type="text" #question placeholder="Type your question here..." class="form-control col-md-6" >
+    <button class="btn btn-primary" (click)="postQ(question.value)">Post Question</button>
+    <h4 *ngIf="all.length>0">Customer questions & answers</h4>
+    <div *ngFor="let a of all">
+
+        <h5>Q:</h5>
+        <span>{{a.Question}}</span>
+        <h3 *ngIf="a.AModel.length>0">A:</h3>
+        <p *ngIf="a.AModel.length>0">{{a.AModel[0].Answer}}
+        by {{a.AModel[0].RepliedBy}} on {{a.AModel[0].CreatedOn}}</p>
+    </div>
+    <div *ngIf="all && Total>all.length">
+        <button  (click)="getMore()">See More</button>
+    </div>
+</div>
